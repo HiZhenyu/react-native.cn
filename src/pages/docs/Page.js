@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import config from '../../options';
 import storage from '../../storage/storage';
+import SNSComment from '../../components/SNSComment';
 import { contentLoaded } from '../../redux/modules/content';
 
 class Page extends React.Component {
@@ -24,7 +25,6 @@ class Page extends React.Component {
       id: location.pathname.replace(/\.html$/, ''),
     }).then(data => dispatch(contentLoaded(data)));
   }
-
   render() {
     const { location, params, docIndex, content } = this.props;
     let hash = location.hash;
@@ -79,6 +79,7 @@ class Page extends React.Component {
             </Col>}
           </Row>
         </section>
+        <SNSComment threadKey={location.pathname} />
       </div>
     );
   }

@@ -9,6 +9,7 @@ import DocumentMeta from 'react-document-meta';
 import config from '../options';
 import { postLoaded } from '../redux/modules/post';
 import storage from '../storage/storage';
+import SNSComment from '../components/SNSComment';
 import './Post.styl';
 
 class Post extends React.Component {
@@ -23,12 +24,19 @@ class Post extends React.Component {
       id,
     }).then(data => dispatch(postLoaded(data)));
   }
+
+
   parseBlogBody = (rawBody, link) => {
     const parsedText = rawBody.replace(/\/uploads\/file/g, `${config.bbs}/uploads/file`);
     return `${parsedText}<a href="${link}" class="more">[去论坛发表意见]</a>`;
   };
+
+  // componentDidMount() {
+  //   DUOSHUO.EmbedThread(this.refs.duoshuo);
+  // }
+
   render() {
-    const { post } = this.props;
+    const { post, location } = this.props;
     const body = post.posts[0];
     return (
       <div>
@@ -56,10 +64,11 @@ class Post extends React.Component {
             <div
               className="post"
               dangerouslySetInnerHTML={{
-                      __html: this.parseBlogBody(body.content, `${config.bbs}/topic/${post.tid}`),
-                    }}
+                __html: this.parseBlogBody(body.content, `${config.bbs}/topic/${post.tid}`),
+              }}
             />
           </div>
+          <SNSComment threadKey={location.pathname} title={post.title} />
         </Container>
       </div>
     );
