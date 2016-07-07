@@ -21,6 +21,7 @@ const linksInternal = [
   { section: 'cases', href: '/cases.html', text: '案例' },
   { section: 'blog', href: '/blog.html', text: '博客' },
   { section: 'videos', href: '/videos.html', text: '视频' },
+  { section: 'event', hot: true, href: 'http://city.oschina.net/qingdao/event/2185476', text: '源创会', newTab: true },
   { section: 'bbs', href: 'http://bbs.reactnative.cn/', text: '讨论', hot: true, newTab: false },
   { section: 'update', hot: true, href: 'http://update.reactnative.cn', text: '热更新', newTab: true },
   // { section: 'pushy', hot: true, href: '', text: '热更新内测', newTab: true, isHidden: () => {
