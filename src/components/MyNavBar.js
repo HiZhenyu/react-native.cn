@@ -75,7 +75,7 @@ class MyNavBar extends React.Component {
     );
   }
   goToDoc = (version) =>
-    () => this.context.router.push(`/docs/${version}`);
+    () => this.context.router.push(`/docs/${version}/getting-started.html`);
   goToReleaseNote = () => (window.location = 'http://bbs.reactnative.cn/category/1');
   render() {
     return (
