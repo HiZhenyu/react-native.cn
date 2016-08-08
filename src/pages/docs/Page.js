@@ -8,7 +8,9 @@ import { Link } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import config from '../../options';
 import storage from '../../storage/storage';
+import SNSComment from '../../components/SNSComment';
 import { contentLoaded } from '../../redux/modules/content';
+import NotFound from '../NotFound';
 
 class Page extends React.Component {
   static propTypes = {
@@ -24,7 +26,6 @@ class Page extends React.Component {
       id: location.pathname.replace(/\.html$/, ''),
     }).then(data => dispatch(contentLoaded(data)));
   }
-
   render() {
     const { location, params, docIndex, content } = this.props;
     let hash = location.hash;
@@ -57,14 +58,23 @@ class Page extends React.Component {
         <h1>{title}</h1>
         { gitLink && <a className="edit-github" href={gitLink}>在GitHub上修改这篇文档</a> }
         <section className="content">
-          <Marked uri={`/static/docs/${params.version}/`} scrollTo={hash} createHashLink>
-            {content}
-          </Marked>
+          {
+            content ?
+              <Marked uri={`/static/docs/${params.version}/`} scrollTo={hash} createHashLink>
+                {content}
+              </Marked>
+              :
+              <NotFound />
+          }
           <Row className="prevNextRow">
             {prev && <Col xs={3} md={3} mdOffset={9} xsOffset={7}>
               <Link
                 className="nextprevLink"
-                to={{ pathname: `/docs/${params.version}/${prev.mdlink}.html` }}
+                to={{
+                  pathname: prev.external || `${prev.mdlink}.html`,
+                  hash: '#content',
+                }}
+                target={prev.external ? '_blank' : '_self'}
               >
                 前一篇：{prev.subject}
               </Link>
@@ -72,13 +82,18 @@ class Page extends React.Component {
             {next && <Col xs={3} md={3} mdOffset={9} xsOffset={7}>
               <Link
                 className="nextprevLink"
-                to={{ pathname: `/docs/${params.version}/${next.mdlink}.html` }}
+                to={{
+                  pathname: next.external || `${next.mdlink}.html`,
+                  hash: '#content',
+                }}
+                target={next.external ? '_blank' : '_self'}
               >
                 后一篇：{next.subject}
               </Link>
             </Col>}
           </Row>
         </section>
+        <SNSComment threadKey={location.pathname} title={`${params.version}/${title}`} />
       </div>
     );
   }

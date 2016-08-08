@@ -17,12 +17,12 @@ import versions from '../pages/docs/versions.json';
 const linksInternal = [
   // {section: 'offdocs', href: 'https://facebook.github.io/react-native/docs/getting-started.html', text: '官方文档(英文)'},
   // {section: 'releases', href: 'https://github.com/facebook/react-native/releases', text: '版本'},
-  { section: 'docs', href: '/docs/', text: '文档' },
+  { section: 'docs', href: `/docs/${versions.current}/getting-started.html`, text: '文档' },
   { section: 'cases', href: '/cases.html', text: '案例' },
   { section: 'blog', href: '/blog.html', text: '博客' },
   { section: 'videos', href: '/videos.html', text: '视频' },
   { section: 'bbs', href: 'http://bbs.reactnative.cn/', text: '讨论', hot: true, newTab: false },
-  { section: 'shfx', hot: true, href: 'http://bbs.reactnative.cn/topic/509', text: '3.19上海分享会', newTab: true },
+  { section: 'gztechparty', hot: true, href: 'http://bbs.reactnative.cn/topic/634', text: '广州Techparty', newTab: true },
   // { section: 'pushy', hot: true, href: '', text: '热更新内测', newTab: true, isHidden: () => {
   //   const regex = /baidu.com/;
   //   if (__SERVER__) {
@@ -76,7 +76,7 @@ class MyNavBar extends React.Component {
     );
   }
   goToDoc = (version) =>
-    () => this.context.router.push(`/docs/${version}`);
+    () => this.context.router.push(`/docs/${version}/getting-started.html`);
   goToReleaseNote = () => (window.location = 'http://bbs.reactnative.cn/category/1');
   render() {
     return (
@@ -94,7 +94,8 @@ class MyNavBar extends React.Component {
             </Navbar.Brand>
             <NavDropdown
               className="nav-version"
-              title={ this.props.params.version || versions.current } id="nav_version"
+              title={ this.props.params.version || versions.current }
+              id="nav_version"
             >
               <MenuItem onSelect={this.goToReleaseNote}>
                 更新日志
@@ -116,6 +117,12 @@ class MyNavBar extends React.Component {
               }
             </Nav>
             <Nav pullRight>
+              <NavItem>
+                <form className="nav-search-form" target="_blank" action="http://zhannei.baidu.com/cse/site">
+                  <input className="nav-search" type="text" name="q" size="30" placeholder="搜索文档" />
+                  <input type="hidden" name="cc" value="reactnative.cn" />
+                </form>
+              </NavItem>
               {
                 linksExternal.map(v => this.createLink(v))
               }
